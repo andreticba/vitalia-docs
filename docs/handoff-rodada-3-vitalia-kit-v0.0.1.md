@@ -1,5 +1,5 @@
-<!-- handoff-rodada-3-vitalia-kit-v0.0.1.md | Vitalia Kit v0.0.1 | 24-11-2026 17:58(GMT-04:00) -->
-**handoff-rodada-3-vitalia-kit-v0.0.1.md | Vitalia Kit v0.0.1 | 24-11-2026 17:58(GMT-04:00)**
+<!-- handoff-rodada-3-vitalia-kit-v0.0.1.md | Vitalia Kit v0.0.1 | 25-11-2026 09:27(GMT-04:00) -->
+**handoff-rodada-3-vitalia-kit-v0.0.1.md | Vitalia Kit v0.0.1 | 25-11-2026 09:27(GMT-04:00)**
 
 # Handoff de Correções — Rodada 3 (Vitalia Kit v0.0.1)
 
@@ -22,13 +22,16 @@
 
 ## 1. Regras Inegociáveis de Higiene e Topologia
 
-1. **Erradicação Total de `.vitalia/session/data` (Zero Tolerância):**
-   - O caminho legado `.vitalia/session/data` é um erro do passado e **NÃO deve existir no código, nem em docstrings, nem em comentários**.
-   - Locais já identificados para limpeza imediata:
+1. **Erradicação Total de `.vitalia/session/data` e `.vitalia/memory/session/data` (Zero Tolerância):**
+   - Os caminhos legados `.vitalia/session/data` e `.vitalia/memory/session/data` (`session/data` / `"session" / "data"`) são inexistentes e **NÃO devem existir no código, nem em docstrings, nem em comentários**. Todo arquivo de sessão reside diretamente na raiz `.vitalia/memory/session/`, e `grounding-domains.jsonl` é projetado em `.vitalia/memory/session/grounding-domains.jsonl` e `.vitalia/memory/data_storage/grounding-domains.jsonl`.
+   - Locais já identificados para limpeza imediata em `source/`:
      - `source/src/core/data_storage_io.py:102` (docstring `category_dir`)
      - `source/src/core/grounding_domain_updater.py:11` (docstring)
-     - `source/src/vitalia_tmp_cleanup.py:311` (remover flag/texto `--include-legacy` que cita `.vitalia/session/data`)
-   - Executar varredura `grep -rn "\.vitalia/session/data" source/` e garantir **0 ocorrências** antes de concluir.
+     - `source/src/vitalia_tmp_cleanup.py:311,329` (remover flag/texto `--include-legacy`)
+     - `source/src/hooks/guardian_context.py:138,148-150` (`"session/data/*.jsonl"` + `session_dir / "data"` + `memory / "session" / "data"`)
+     - `source/src/rendering/dashboard_renderer.py:29-30` (`legacy = self.session_dir / "data"`)
+     - `source/src/sensors/sensor_memory_ledger.py:92` e `source/tests/test_sensor_memory_ledger.py:66` (`"session" / "data"`)
+   - **Gate 0 Obrigatório no Início do Ciclo SDD:** Executar a varredura `grep -rnI --exclude-dir=__pycache__ "\.vitalia/session/data\|memory/session/data\|session/data\|session_dir\s*/\s*\"data\"\|\"session\"\s*/\s*\"data\"" source/` e validar a raiz física de `.vitalia/memory/session/` **logo no início da implementação deste turno (antes de evoluir qualquer módulo)** e novamente ao concluir, garantindo **0 ocorrências** e dotando `sensor_path_hygiene.py` e `sensor_memory_ledger.py` de bloqueio preventivo contínuo nos hooks VRSS.
 2. **Erradicação de Legado `vitalia-spec-kit` / `"Vitalia SPEC Kit"`:**
    - Corrigir `source/src/tools/pre_commit_runner.py:197-198` (`$HOME/.vitalia-spec-kit` $\rightarrow$ `$HOME/.vitalia-kit`).
    - Corrigir `source/src/core/data_storage_io.py:27` (remover `Path.home() / ".vitalia-spec-kit"`).
@@ -65,12 +68,12 @@
 ### Bloco 4 — Contratos, Constituição, Transporte e CLI
 1. **`source/layers/constitution/base.yaml:64,76,88`:** Substituir `validator: "hooks/llm_judge.py --mode after_task"` em `P07`, `P10` e `P12` por validadores reais existentes (e recompilar `source/profiles/constitution.yaml`).
 2. **Descontinuação de `.vitalia/pipeline.json` e `.vitalia/pipe.json` (`source/layers/extensions/`):** Remover `file_path = ".vitalia/pipeline.json"` em `source/layers/extensions/_base.toml:17` e `file_path = ".vitalia/pipe.json"` nos 17 `.toml` em `source/layers/extensions/` (`adr.toml:18`, `analyze.toml:18`, `brainstorming.toml:18`, `clarify.toml:21`, `converge.toml:18`, `debug.toml:18`, `integrative-review.toml:18`, `pair.toml:18`, `release.toml:18`, `review.toml:18`, `route.toml:18`, `science-review.toml:18`, `session-consolidate.toml:21`, `session-end.toml:18`, `session-start.toml:21`, `skill-evaluation.toml:21`, `task-verifier.toml:18`), mantendo `preferred = "filesystem"` e `session_shard = true`, e recompilar `source/extensions/*.toml`. O transporte de estado em filesystem entre etapas opera via `data_storage/context/`, `data_storage/handoffs/` e payloads transitórios em `.vitalia/`.
-3. **`source/src/vitalia_context_engine.py:91-106`:** Implementar/expor as flags contratuais faltantes (`--action init`, `--payload-file`, `--render-session-dashboard`, `--render-data-dashboard`) sem retornar `exit 2`.
+3. **`source/src/vitalia_context_engine.py:91-106`:** Implementar/expor as flags contratuais faltantes (`--action {end,list-pending-domains,consolidate}`, `--payload-file`, `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding`, `--update-grounding-domains`, `--grounding-decisions-file`) sem retornar `exit 2` (mantendo o provisionamento estrutural da Camada 3 restrito ao `install-project`).
 
 ---
 
 ## 3. Critérios de Aceitação e Verificação na Máquina Destino
 1. **Compilação sem deriva:** Executar `vitalia_layer_compiler.py --check` (`PASS`).
-2. **Zero legado:** `grep -rn "\.vitalia/session/data\|vitalia-spec-kit\|Vitalia SPEC Kit" source/` retorna `0` ocorrências.
+2. **Zero legado:** `grep -rnI --exclude-dir=__pycache__ "session/data\|\"session\"\s*/\s*\"data\"\|vitalia-spec-kit\|Vitalia SPEC Kit" source/` retorna `0` ocorrências ativas.
 3. **Suíte `pytest`:** Executar a partir da **raiz do repositório `vitalia-kit/`**: `<kit_python> -m pytest source/tests/` com 100% de aprovação.
 4. **Testes end-to-end:** Executar a bateria definida em [mapa-testes-vitalia-kit.md](./relatorios/mapa-testes-vitalia-kit.md) (T1 a T7) em sandbox isolado (`/tmp/`).

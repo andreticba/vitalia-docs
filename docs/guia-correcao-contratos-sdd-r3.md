@@ -1,5 +1,5 @@
-<!-- guia-correcao-contratos-sdd-r3.md | Vitalia Kit v0.0.1 | 24-11-2026 18:05(GMT-04:00) -->
-**guia-correcao-contratos-sdd-r3.md | Vitalia Kit v0.0.1 | 24-11-2026 18:05(GMT-04:00)**
+<!-- guia-correcao-contratos-sdd-r3.md | Vitalia Kit v0.0.1 | 25-11-2026 08:44(GMT-04:00) -->
+**guia-correcao-contratos-sdd-r3.md | Vitalia Kit v0.0.1 | 25-11-2026 08:44(GMT-04:00)**
 
 # Guia de Correções — `CONTRATOS_WORKFLOWS_SDD.md` (Rodada 3)
 
@@ -19,7 +19,7 @@
    ```
    *(Em `gp_sdd-judge.yaml`, incluir também `mandatory_fmea_questions` dentro de `phase_guardrails` e o bloco `phase_profiles` com os 6 modos: `specify`, `plan`, `tasks`, `after_task`, `clarify`, `converge`).*
 2. **Flags CLI de `source/src/vitalia_context_engine.py`:**
-   - `--action {init,end,list-pending-domains,consolidate}`
+   - `--action {end,list-pending-domains,consolidate}` *(o provisionamento inicial da Camada 3 compete exclusivamente ao `install-project`)*
    - `--payload-file <caminho>` (ex.: `.vitalia/end_payload.json`)
    - `--render-session-dashboard` / `--render-data-dashboard` / `--render-grounding`
    - `--update-grounding-domains` / `--grounding-decisions-file`

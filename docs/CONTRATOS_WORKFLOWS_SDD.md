@@ -1,5 +1,5 @@
-<!-- CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 19-11-2026 08:57(GMT-04:00) -->
-> **CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 19-11-2026 08:57(GMT-04:00)**
+<!-- CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 25-11-2026 15:33(GMT-04:00) -->
+**CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 25-11-2026 15:33(GMT-04:00)**
 
 # Manual Normativo de Contratos: Coleção Completa de Agentes, Especialistas e Workflows (Vitalia Kit v0.0.1)
 ## Especificação Canônica Consolidada pós-Specs 004, 005 e 006 (Dual-Runtime, OpenAPI 3.0 e Elevação Proativa de Sandbox)
@@ -169,7 +169,6 @@ writes = []
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -200,30 +199,30 @@ git -C .vitalia/memory/session pull --rebase
 *(Se falhar por ausência de repositório remoto ou credenciais em sandbox, prossiga normalmente).*
 
 ### Passo 2: Consolidação do Motor de Contexto
-Verifique a existência da pasta `.vitalia/memory/session/data/`:
-- Se NÃO existir: execute `{{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/vitalia_context_engine.py --action init`
-- Se EXISTIR: execute `{{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/vitalia_context_engine.py --action consolidate`
+Com `.vitalia/memory/session/` previamente provisionado pelo `install-project`, execute a consolidação determinística dos painéis preservando integralmente o histórico sincronizado da nuvem:
+```bash
+{{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/vitalia_context_engine.py --action consolidate
+```
 
-### Passo 3: Leitura do Estado Consolidado
-Leia os seguintes arquivos em `.vitalia/memory/session/`:
-1. `SESSION_STATE.md` (Estado ativo e P0)
-2. `LEARNINGS.md` (Aprendizados recentes consolidados)
-3. `README.md` (Painel visual de status multi-máquina)
+### Passo 3: Leitura do Painel Unificado Consolidado
+Leia os artefatos consolidados na raiz de `.vitalia/memory/session/`:
+1. `README.md` (Painel único unificado contendo sessão ativa P0, shards multi-máquina, decisões, aprendizados, guard rails e resumo da Camada 3)
+2. `GROUNDING_DOMAINS.md` (Catálogo de escopos e fontes autoritativas de grounding ativo)
 
 ### Passo 4: Apresentação ao Usuário
-Apresente o resumo estruturado e aguarde direcionamento:
+Apresente o resumo estruturado extraído de `.vitalia/memory/session/README.md` e `.vitalia/feature.json` e aguarde direcionamento:
 
 ```markdown
 ## 📍 [Sessão Iniciada]
 
-**Feature ativa:** [Extraído de SESSION_STATE.md ou .vitalia/feature.json]
-**Semáforo de Sincronização:** [Status do semáforo]
+**Feature ativa:** [Extraído de session/README.md ou .vitalia/feature.json]
+**Semáforo de Sincronização:** [Extraído dos badges do session/README.md]
 
 ### 🎯 Próximo passo prioritário (P0)
-**[Extraído de SESSION_STATE.md]**
+**[Extraído da sessão ativa em session/README.md]**
 
 ### 📝 Notas e Aprendizados Recentes
-[Extraído de LEARNINGS.md]
+[Extraído do bloco de Aprendizados Consolidados em session/README.md]
 
 {{#if guardian_json.env_summary.context_cleanup.needs_cleanup}}
 ### 💡 Manutenção de Disco
@@ -270,7 +269,6 @@ writes = []
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -404,7 +402,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -518,7 +515,6 @@ writes = []
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -625,7 +621,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -811,7 +806,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -864,7 +858,7 @@ optional = ["define_subagent", "invoke_subagent"]
 
 [context]
 reads  = [
-  ".env",
+  ".vitalia/feature.json",
   ".vitalia/feature.json",
   "specs/*/spec.md",
   "specs/*/checklists/requirements.md"
@@ -878,7 +872,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -943,7 +936,7 @@ Execute a auditoria confrontando o `spec.md` contra as categorias de ambiguidade
   `{id, category, target_text, line_number, impact (1-5), uncertainty (1-5), domain_id, rationale, recommendation}`.
 
 ### Passo 3: Executar Calculador Determinístico e Validação de Schema (Script Python)
-**PROIBIDO calcular scores mentalmente via LLM.** Execute o script utilitário determinístico do kit:
+**RESTRITO calcular scores mentalmente via LLM.** Execute o script utilitário determinístico do kit:
 ```bash
 {{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/sdd_ambiguity_scorer.py \
   --spec "{feature_directory}/spec.md" \
@@ -1031,7 +1024,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1092,7 +1084,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1149,7 +1140,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1229,7 +1219,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1305,7 +1294,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1351,7 +1339,6 @@ writes = ["specs/*/tasks.md"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1416,7 +1403,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1496,7 +1482,6 @@ writes = [".vitalia/end_payload.json"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1528,7 +1513,7 @@ Apresente o resumo e aguarde aprovação humana soberana:
 Após aprovação do resumo, grave exclusivamente o arquivo temporário `.vitalia/end_payload.json` na raiz de `.vitalia/` contendo `task`, `p0`, `summary`, `learnings` e `decisions`. Toda escrita em arquivos `.jsonl`, shards, views `.md` e painéis dentro de `.vitalia/memory/session/` e `.vitalia/memory/data_storage/` fica restrita exclusivamente ao motor Python na Fase 3.
 
 ### Fase 3: Execução Determinística do Motor de Contexto (`--action end`)
-Execute o motor delegando a validação via `jsonschema.validate()` contra `learning.schema.json` e `decision.schema.json`, a gravação atômica em `.vitalia/memory/session/data/*.jsonl`, a atualização do shard da máquina, a detecção informativa de pesquisas `general_web` pendentes em `.vitalia/memory/data_storage/research/*/evidence.jsonl` (sem gravar estado provisório em `grounding-domains.jsonl`), a compilação das views `.md` e a atualização dos dashboards de sessão e de dados (com leitura direta dos `.jsonl` e navegação em 2 níveis + visões Nível 2 `.md`):
+Execute o motor delegando a validação via `jsonschema.validate()` contra `learning.schema.json` e `decision.schema.json`, a gravação atômica na raiz de `.vitalia/memory/session/` (`learnings.jsonl`, `decisions.jsonl`, `session_ledger.json`), a atualização do shard da máquina, a detecção informativa de pesquisas `general_web` pendentes em `.vitalia/memory/data_storage/research/*/evidence.jsonl` (mantendo `grounding-domains.jsonl` inalterado), a compilação das views `.md` e a atualização dos dashboards de sessão e de dados (com leitura direta dos `.jsonl` e navegação em 2 níveis + visões Nível 2 `.md`):
 ```bash
 {{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/vitalia_context_engine.py --action end --payload-file .vitalia/end_payload.json
 ```
@@ -1569,7 +1554,6 @@ writes = [".vitalia/grounding_decisions_payload.json"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1658,8 +1642,8 @@ Execute o motor Python para atualizar o Motor de Domínios na máquina, refletir
 
 Internamente, o pipeline determinístico executa em ordem estrita:
 1. **`GroundingDomainUpdater` (Motor de Domínios na Máquina):** valida cada decisão contra `grounding_decision.schema.json` (sem `minItems: 1` rígido no schema e sem `"scope": null`) e `grounding_domains.schema.json` via `jsonschema.validate()` (*fail-closed*: rejeita strings simples, `"scope": null` ou objetos incompletos com código `1` mantendo os arquivos intactos), aceita decisões HITL em `{"global", "local", "rejected"}`, atualiza diretamente o Motor de Domínios no kit na máquina (`grounding_domains.yaml`, com campo `scope: "global"`, `"domain_overlay"` ou `"local"` e `project` opcional — sem lógica de atualização na nuvem), e remove `.vitalia/grounding_decisions_payload.json`.
-2. **`GroundingRenderer` (Espelho para Exibição na Nuvem):** lê o Motor de Domínios atualizado (`global`, `domain_overlay`+`gate?`, `local`+`project?`) e os registros de curadoria (`rejected`), gerando exclusivamente os artefatos de exibição no repositório de sessão: `.vitalia/memory/session/data/grounding-domains.jsonl` (validado contra `grounding_decision.schema.json`) e a view amigável `.vitalia/memory/session/GROUNDING_DOMAINS.md` com badges `shields.io` e tabelas Globais, Domain Overlays (com coluna `gate`) e Locais (sem criar `grounding-domains-local.yaml`).
-3. **`DashboardRenderer` & `ViewRenderer`:** leem diretamente os arquivos `.jsonl` de `.vitalia/memory/session/data/` (incluindo `grounding-domains.jsonl`, exibindo domínios globais, overlays e locais com link para `GROUNDING_DOMAINS.md`) para finalizar `.vitalia/memory/session/README.md`, `DECISIONS.md`, `LEARNINGS.md` e `SESSION_HISTORY.md`.
+2. **`GroundingRenderer` (Projeção Dual para Exibição na Nuvem):** lê o Motor de Domínios atualizado (`global`, `domain_overlay`+`gate?`, `local`+`project?`) e os registros de curadoria (`rejected`), gravando os artefatos de projeção em **ambos** `.vitalia/memory/session/grounding-domains.jsonl` e `.vitalia/memory/data_storage/grounding-domains.jsonl` (validados contra `grounding_decision.schema.json`) e a view amigável `.vitalia/memory/session/GROUNDING_DOMAINS.md` com badges `shields.io` e tabelas Globais, Domain Overlays (com coluna `gate`) e Locais (mantendo `grounding-domains-local.yaml` aposentado).
+3. **`DashboardRenderer`:** lê diretamente os arquivos `.jsonl`/`json` da raiz de `.vitalia/memory/session/` (`session_ledger.json`, `decisions.jsonl`, `learnings.jsonl`, `grounding-domains.jsonl`, exibindo domínios globais, overlays e locais com link para `GROUNDING_DOMAINS.md`) para consolidar o painel unificado `.vitalia/memory/session/README.md`.
 4. **`DataStorageDashboardRenderer`:** lê diretamente os ledgers `.jsonl` por categoria em `.vitalia/memory/data_storage/` e finaliza a navegação `.md` amigável em 2 níveis (Nível 0 `.vitalia/memory/data_storage/README.md` $\rightarrow$ Nível 1 `<categoria>/README.md` $\rightarrow$ Nível 2 `<item>.md` organizado com badges).
 *(Flags seletivas disponíveis quando necessárias: `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding`, `--update-grounding-domains`)*.
 
@@ -1713,7 +1697,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1794,7 +1777,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1855,7 +1837,6 @@ writes = [
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1911,7 +1892,6 @@ writes = ["docs/design/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -1965,7 +1945,6 @@ writes = [".vitalia/memory/data_storage/images/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2017,7 +1996,6 @@ writes = ["docs/design/design-tokens.json"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2070,7 +2048,6 @@ writes = ["specs/*/*"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2124,7 +2101,6 @@ writes = []  # Escrita agnóstica na árvore frontend detectada
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2178,7 +2154,6 @@ writes = ["docker-compose.yml", "deploy/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2231,7 +2206,6 @@ writes = []  # Escrita agnóstica na árvore de IA detectada
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2296,7 +2270,6 @@ writes = ["docs/adr/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2343,7 +2316,6 @@ writes = []
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2390,7 +2362,6 @@ writes = ["tests/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2438,7 +2409,6 @@ writes = []
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2485,7 +2455,6 @@ writes = ["CHANGELOG.md"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2534,7 +2503,6 @@ writes = ["docs/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2576,7 +2544,6 @@ writes = [".vitalia/memory/data_storage/fichamentos/"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2622,7 +2589,6 @@ writes = [".vitalia/end_payload.json"]
 
 [transport]
 preferred     = "filesystem"
-file_path     = ".vitalia/pipeline.json"
 session_shard = true
 
 [guardian]
@@ -2641,7 +2607,7 @@ Examine o histórico da sessão:
 ```bash
 {{KIT_PYTHON}} {{VITALIA_KIT_DIR}}/src/vitalia_context_engine.py --action end --payload-file .vitalia/end_payload.json
 ```
-A validação contra `learning.schema.json`, a gravação em `.vitalia/memory/session/data/learnings.jsonl` e a recompilação da Pure View `LEARNINGS.md` ocorrem exclusivamente no motor Python.
+A validação contra `learning.schema.json`, a gravação na raiz `.vitalia/memory/session/learnings.jsonl` e a atualização do dashboard `.vitalia/memory/session/README.md` ocorrem exclusivamente no motor Python.
 """
 ````
 
@@ -2795,9 +2761,9 @@ session_context:
   include_user_input: true
 ````
 
-#### 04. `gp_vitalia-route.yaml` (Despachante Determinístico)
+#### 04. `gp_route.yaml` (Despachante Determinístico)
 ````yaml
-# gp_vitalia-route.yaml | Vitalia Kit v0.0.1 | Sanitizado
+# gp_route.yaml | Vitalia Kit v0.0.1 | Sanitizado
 # Guardian Profile para vitalia-route (Dispatcher).
 # Sem poda de contexto (no_prune: true).
 
@@ -2911,7 +2877,7 @@ phase_guardrails:
   role: "Engenheiro de Requisitos & Guardião de Contratos"
   mandatory_checks:
     - "Acceptance Scenarios (Given/When/Then) e Success Criteria (SC-xxx) DEVEM definir comportamentos observáveis de caixa-preta e invariantes de contrato do consumidor."
-    - "PROIBIDO definir critérios de sucesso baseados apenas na mera existência sintática de arquivos ou strings."
+    - "RESTRITO definir critérios de sucesso baseados apenas na mera existência sintática de arquivos ou strings."
     - "Grounding de Fronteira: toda suposição externa exige delegação ao Sub-Agente de pesquisa com HTTP 200 comprovado, leitura integral da documentação e checagem de não-depreciação conforme princípio constitucional de grounding temporal."
     - "Submissão obrigatória ao /vitalia-judge --mode=specify com pausa HITL soberana."
 
@@ -3269,7 +3235,7 @@ phase_guardrails:
   phase: "session-consolidate"
   role: "Consolidador Multi-Máquina, Motor de Domínios na Máquina & Renderizador .md via .jsonl"
   mandatory_checks:
-    - "Regra da Cerca Elétrica: o GroundingDomainUpdater atualiza o Motor de Domínios localmente na máquina; em seguida, o GroundingRenderer projeta os 4 escopos (global, domain_overlay com gate, local com project, rejected) em .vitalia/memory/session/data/grounding-domains.jsonl e GROUNDING_DOMAINS.md; por fim, DashboardRenderer e DataStorageDashboardRenderer leem diretamente os arquivos .jsonl para renderizar session/README.md (globais, overlays e locais) e os 2 níveis de .md amigáveis em data_storage/."
+    - "Regra da Cerca Elétrica: o GroundingDomainUpdater atualiza o Motor de Domínios localmente na máquina; em seguida, o GroundingRenderer projeta os 4 escopos (global, domain_overlay com gate, local com project, rejected) em .vitalia/memory/session/grounding-domains.jsonl, .vitalia/memory/data_storage/grounding-domains.jsonl e .vitalia/memory/session/GROUNDING_DOMAINS.md; por fim, DashboardRenderer e DataStorageDashboardRenderer leem diretamente os arquivos .jsonl na raiz de session/ e data_storage/ para renderizar session/README.md (globais, overlays e locais) e os 2 níveis de .md amigáveis em data_storage/."
     - "Na curadoria de domínios general_web, consultar pesquisas pendentes via --action list-pending-domains --json, perguntar ao usuário via ask_question se o domínio novo será global no kit ou local ao projeto (scope: global|local|rejected), gravar objetos completos com name, trigger e authoritative_sources tipados (url, source_tier, source_type, authority_scope, volatility) em .vitalia/grounding_decisions_payload.json (sem scope null) e aplicar via --action consolidate --update-grounding-domains --grounding-decisions-file .vitalia/grounding_decisions_payload.json."
     - "Ordenar os shards de máquinas por last_sync decrescente para preservar o active_focus e next_action mais recentes."
 ````
@@ -3863,7 +3829,7 @@ flowchart TD
      5. `rendering/grounding_audit_renderer.py` + `templates/grounding_audit_template.md`: renderização determinística da visão Nível 2 `GROUNDING_AUDIT.md` com badges `shields.io`, links `https://` e `file://`, seção `general_web` e separação `Verificado vs. Não Verificado`.
      6. `rendering/data_storage_dashboard_renderer.py` + `templates/data_storage_dashboard_template.md`: leitor direto de `.jsonl` por categoria (`context`, `handoffs`, `research`, `diagnostics`, `telemetry`) que renderiza os **2 níveis de navegação `.md`** — **Nível 0** (`.vitalia/memory/data_storage/README.md`) $\rightarrow$ **Nível 1** (`<categoria>/README.md` com listas por tipo e badges) $\rightarrow$ links amigáveis para as visões **Nível 2** (`<item>.md`).
      7. `core/grounding_domain_updater.py`: módulo e CLI determinísticos para atualização do **Motor de Domínios no kit na máquina** (sem lógica de atualização remota na nuvem) — (a) `--action list-pending-domains --json` inspeciona diretamente `.vitalia/memory/data_storage/research/*/evidence.jsonl` buscando `domain_match: "general_web"` ainda pendentes frente ao catálogo atual do motor; (b) `--action consolidate --update-grounding-domains --grounding-decisions-file .vitalia/grounding_decisions_payload.json` aceita exclusivamente decisões HITL em `{"global", "local", "rejected"}`, exige para `"global"`/`"local"` objetos completos com `name`, `trigger` e `>= 1` objeto em `authoritative_sources` tipados (`url`, `source_tier`, `source_type`, `authority_scope`, `volatility`), rejeita strings simples ou `"scope": null` com exit `1` mantendo os arquivos intactos, valida contra `grounding_decision.schema.json` (sem `minItems: 1` rígido no schema) e `grounding_domains.schema.json` via `jsonschema.validate()`, atualiza o Motor na máquina e remove `.vitalia/grounding_decisions_payload.json`.
-     8. `vitalia_context_engine.py` + `core/context_engine.py` + `rendering/grounding_renderer.py` + `rendering/dashboard_renderer.py`: após o `GroundingDomainUpdater` atualizar o motor na máquina, `GroundingRenderer` lê o Motor atualizado (`global`, `domain_overlay`+`gate?`, `local`+`project?`) + decisões (`rejected`) e gera `.vitalia/memory/session/data/grounding-domains.jsonl` (os `4` escopos validados contra `grounding_decision.schema.json`) + `.vitalia/memory/session/GROUNDING_DOMAINS.md` (tabelas Globais, Domain Overlays com `gate` e Locais; aposentando `grounding-domains-local.yaml`); em seguida, `DashboardRenderer` lê diretamente `.vitalia/memory/session/data/*.jsonl` (incluindo `grounding-domains.jsonl`) para finalizar `.vitalia/memory/session/README.md`, e `vitalia_context_engine.py` expõe ações/flags independentes (`--action list-pending-domains --json`, `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding`, `--update-grounding-domains`, `--grounding-decisions-file`).
+     8. `vitalia_context_engine.py` + `vitalia_context_engine.py` + `rendering/grounding_renderer.py` + `rendering/dashboard_renderer.py`: após o `GroundingDomainUpdater` atualizar o motor na máquina, `GroundingRenderer` lê o Motor atualizado (`global`, `domain_overlay`+`gate?`, `local`+`project?`) + decisões (`rejected`) e grava em **ambos** `.vitalia/memory/session/grounding-domains.jsonl` e `.vitalia/memory/data_storage/grounding-domains.jsonl` (os `4` escopos validados contra `grounding_decision.schema.json`) + `.vitalia/memory/session/GROUNDING_DOMAINS.md` (tabelas Globais, Domain Overlays com `gate` e Locais; aposentando `grounding-domains-local.yaml`); em seguida, `DashboardRenderer` lê diretamente `.vitalia/memory/session/*.jsonl` e `session_ledger.json` (incluindo `session/grounding-domains.jsonl`) para consolidar o painel único `.vitalia/memory/session/README.md`, e `vitalia_context_engine.py` expõe exclusivamente `--action {end, list-pending-domains, consolidate}` (mantendo o provisionamento inicial da Camada 3 restrito ao `install-project`) e as flags independentes (`--payload-file`, `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding`, `--update-grounding-domains`, `--grounding-decisions-file`).
      9. **Instaladores Limpos (`kit-bootstrap.sh` & `install-project`):** `source/kit-bootstrap.sh` executa em máquina limpa na ordem preflight $\rightarrow$ criação inicial de `${KIT_DIR}/.venv` + instalação de `source/requirements.txt` $\rightarrow$ gate obrigatório `--check` via `"${VENV_DIR}/bin/python3"` antes da cópia $\rightarrow$ cópia estrita do runtime preservando `.venv/` e excluindo `layers/`/`tests/` $\rightarrow$ shims `~/.local/bin/` e shell rc; `source/bin/install-project` omite Gemini CLI, arquiva `.gemini/commands/vitalia.*` em `data_storage/backups/`, realiza merge não-destrutivo de `.vitalia/config.yml` existente e gera as `34` skills puras integralmente em `{{KIT_PYTHON}}` + `tomllib` (sem `sed`).
    - **Adequação de `sdd_ambiguity_scorer.py`:** implementação integral do contrato da Seção 7.3 (`--spec`, `--findings`, `--scoring`, `--taxonomy`, `--output`, `defect_density`, `categories_breakdown`, `severity_breakdown`, validação contra `ambiguity_taxonomy.schema.json`), preservando compatibilidade `--input`.
 
@@ -3923,7 +3889,7 @@ A matriz abaixo consolida **todos os 34 workflows operacionais** do **Vitalia Ki
 | **01** | `session-start` | Inicialização | `/vitalia-session-start` | `session-start.toml` | `gp_session-start.yaml` | `read_file`, `write_file`, `run_command`, `define_subagent`, `invoke_subagent` |
 | **02** | `brainstorming` | Descoberta Universal | `/vitalia-brainstorming` | `brainstorming.toml` | `gp_brainstorming.yaml` | `read_file`, `write_file`, `run_command`, `define_subagent`, `invoke_subagent` |
 | **03** | `research` | Pesquisa & Grounding | `/vitalia-research` | `research.toml` | `gp_research.yaml` | `read_file`, `write_file`, **`search_web` *(exclusivo)***, `run_command`, `define_subagent`, `invoke_subagent` |
-| **04** | `route` | Despacho Oficial | `/vitalia-route` | `route.toml` | `gp_vitalia-route.yaml` | `read_file`, `run_command`, `ask_question`, `define_subagent`, `invoke_subagent` |
+| **04** | `route` | Despacho Oficial | `/vitalia-route` | `route.toml` | `gp_route.yaml` | `read_file`, `run_command`, `ask_question`, `define_subagent`, `invoke_subagent` |
 | **05** | `architect` | Engenharia & SDD | `/vitalia-architect` | `architect.toml` | `gp_architect.yaml` | `read_file`, `write_file`, `run_command`, `define_subagent`, `invoke_subagent` |
 | **06** | `spec-specify` | Engenharia & SDD | `/vitalia-spec-specify` | `spec-specify.toml` | `gp_spec-specify.yaml` | `read_file`, `write_file`, `define_subagent`, `invoke_subagent` |
 | **07** | `clarify` | Engenharia & SDD | `/vitalia-clarify` | `clarify.toml` | `gp_sdd-judge.yaml` | `read_file`, `write_file`, `run_command`, `ask_question`, `define_subagent`, `invoke_subagent` |
@@ -3975,16 +3941,16 @@ Em estrita observância ao princípio constitucional **P11**, todos os contratos
 | **07** | `grounding_domains.schema.json` | Grounding P03 | `source/profiles/grounding_domains.yaml` (Motor na Máquina) | `schema_type: "grounding_domains"`, `schema_version`, `domains` (`id`, `name`, `scope: global\|domain_overlay\|local`, opcionais `gate` e `project`, `description`, `trigger: blocking\|warning\|info`, `authoritative_sources` com `minItems: 0` quando catch-all `general_web` e objetos tipados `url`, `source_tier`, `source_type`, `authority_scope`, `volatility`) |
 | **08** | `grounding_domains_lock.schema.json` | Grounding P03 | `source/profiles/grounding_domains.lock.json` (`prov:Bundle`) | `schema_type: "grounding_domains_lock"`, `schema_version`, `generated_at`, `sources` (`url`, `http_clock`, `semantic_clock`) |
 | **09** | `evidence_record.schema.json` | Grounding P03 | `data_storage/research/<tema>/evidence.jsonl` / `vitalia_grounding_validator.py` | `url`, `url_requested`, `final_url`, `http_status`, `sha256`, `snapshot_path`, `fetched_at`, `domain_match`, opcional `suggested_domain`, `literal_quote`, `status` (`verified\|unverified`) |
-| **10** | `grounding_decision.schema.json` | Grounding P03 + Projeção `1A` | `GroundingDomainUpdater` (Motor na Máquina) $\rightarrow$ `GroundingRenderer` (`memory/session/data/grounding-domains.jsonl` + `GROUNDING_DOMAINS.md`) | `id`, `type` (`new_domain \| scope_decision`), `timestamp`, `machine_id`, opcionais `scope` (`"type": "string"`, `enum: ["global", "domain_overlay", "local", "rejected"]`, omitido quando indefinido e sem aceitar `"scope": null`), `gate`, `project`, `domain`, `name`, `trigger` (`blocking \| warning \| info`), `description`, `authoritative_sources` (lista sem `minItems: 1` rígido no schema para acomodar `general_web`/`rejected` na projeção, enquanto o `GroundingDomainUpdater` exige `>= 1` objeto tipado completo na ingestão HITL de `global`/`local`), `reason`, `target_id`, `decided_by` |
+| **10** | `grounding_decision.schema.json` | Grounding P03 + Projeção `1A` | `GroundingDomainUpdater` (Motor na Máquina) $\rightarrow$ `GroundingRenderer` (`memory/session/grounding-domains.jsonl` + `memory/data_storage/grounding-domains.jsonl` + `GROUNDING_DOMAINS.md`) | `id`, `type` (`grounding_decision \| new_domain \| scope_decision \| domain_projection`), `timestamp`, `machine_id`, opcionais `scope` (`"type": "string"`, `enum: ["global", "domain_overlay", "local", "project", "rejected"]`, sem `"scope": null`), `gate`, `project`, `domain`, `domain_id`, `name`, `trigger` (`string`: `blocking \| warning \| info`), `description`, `constitution_principles`, `authoritative_sources`, `decision`, `rationale`, `reason`, `target_id`, `decided_by` |
 | **11** | `agents_catalog.schema.json` | Roteamento & Agência | `source/profiles/agents_catalog.yaml` | `schema_type: "agents_catalog"`, `schema_version`, `agents` (`id`, `name`, `role`, `status: active\|planned`, `command`, `gates`, `sub_agents`, `hitl_required`) |
 | **12** | `routing_table.schema.json` | Roteamento & Agência | `source/profiles/routing_table.yaml` (34 comandos) | `schema_type: "routing_table"`, `schema_version`, `agents` (`id`, `name`, `command`, `tier`, `target_agent`, `gates`, `priority`, `fallback`, `patterns`, `signals`, `fallback_route`) |
 | **13** | `brainstorming_intents.schema.json` | Concepção & Descoberta | `source/profiles/brainstorming_intents.yaml` | `schema_type: "brainstorming_intents"`, `schema_version`, `domains` (com `description`, `threshold`, `margin_threshold`, `decision_mode: ALLOW\|ABSTAIN_CLARIFY\|SAFETY_GATE`, `p0_flag`, `required_gate`, `utterances`) |
 | **14** | `dynamic_questioning.schema.json` | Concepção & Descoberta | `source/profiles/dynamic_questioning.yaml` | `schema_type: "dynamic_questioning"`, `schema_version`, `domains` (com `priority`, `triggers`, `decision_points`, `options`, `default`, `stopping_criteria`) |
 | **15** | `ambiguity_scoring.schema.json` | Clarificação SDD | `source/profiles/ambiguity_scoring.yaml` / `sdd_ambiguity_scorer.py` | `schema_type: "ambiguity_scoring"`, `schema_version`, `impact_scale`, `uncertainty_scale`, `domain_multipliers`, `severity_thresholds` |
 | **16** | `ambiguity_taxonomy.schema.json` | Clarificação SDD | `specs/<feature>/ambiguity_metrics.json` / `sdd_ambiguity_scorer.py` | `schema_version`, `spec_file`, `total_lines`, `total_ambiguities`, `defect_density`, `categories_breakdown`, `severity_breakdown`, `detected_ambiguities` |
-| **17** | `learning.schema.json` | Memória 3-Tier | `memory/session/data/learnings.jsonl` / `ContextEngine` | `id`, `type: "learning"`, `category: KIT\|PROJETO`, `learning`, `rationale`, `machine_id`, `timestamp` |
-| **18** | `decision.schema.json` | Memória 3-Tier | `memory/session/data/decisions.jsonl` / `ContextEngine` | `id`, `type: "decision"`, `category: ARQUITETURA\|PROJETO`, `decision`, `rationale`, `alternatives`, `machine_id`, `timestamp` |
-| **19** | `session_history.schema.json` | Memória 3-Tier | `memory/session/data/session_history.jsonl` / `ShardManager` | `machine_name`, `machine_id`, `mode`, `last_sync`, `task`, `steps`, `next_step`, `status` |
+| **17** | `learning.schema.json` | Memória 3-Tier | `memory/session/learnings.jsonl` / `vitalia_context_engine.py` | `id`, `type: "learning"`, `category: KIT\|PROJETO`, `learning`, `rationale`, `machine_id`, `timestamp` |
+| **18** | `decision.schema.json` | Memória 3-Tier | `memory/session/decisions.jsonl` / `vitalia_context_engine.py` | `id`, `type: "decision"`, `category: ARQUITETURA\|PROJETO`, `decision`, `rationale`, `alternatives`, `machine_id`, `timestamp` |
+| **19** | `session_history.schema.json` | Memória 3-Tier | `memory/session/session_ledger.json` (`shards[]`) / `vitalia_context_engine.py` | `machine_name`, `machine_id`, `mode`, `last_sync`, `task`, `steps`, `next_step`, `status`, opcional `shard_id` |
 | **20** | `finding.schema.json` | VRSS & Runtime | `sensors/registry.py` / `vitalia_hook_runner.py` | `sensor_id`, `status: PASS\|FAIL\|WARN`, `severity: BLOCKING\|WARNING\|INFO`, `policy: fail-closed\|fail-open`, `message`, `target`, `timestamp`, opcional `details` |
 | **21** | `vrss_exec_envelope.schema.json` | VRSS & Runtime | `vrss_exec.py` (Anti-Ruído) | `command`, `exit_code`, `status: PASS\|FAIL\|TIMEOUT`, `timed_out`, `culprit`, `initial_error`, `minimal_slice`, `redacted_secrets_count`, `context_log_file`, `timestamp` |
 | **22** | `context_saturation_report.schema.json` | VRSS & Runtime | `tools/context_saturation_monitor.py` | `status: OK\|WARNING\|CRITICAL`, `estimated_tokens`, `token_budget`, `saturation_ratio`, `condensed`, `preserved_start_blocks`, `preserved_end_blocks`, `compacted_middle_blocks`, `timestamp` |
@@ -3993,3 +3959,6 @@ Em estrita observância ao princípio constitucional **P11**, todos os contratos
 
 ---
 <sub>Manual normativo mestre unificado do Vitalia Kit v0.0.1. Consolidação integral dos 16 Workflows do Ciclo SDD, 10 Agentes Especialistas de Domínio, 8 Extensões de Suporte, 24 Guardian Profiles (`gp_*.yaml`), Modelo Matemático de Ambiguidades, Vitalia Runtime Sensor Suite (VRSS) e Catálogo dos 24 Schemas OpenAPI 3.0 Limpos.</sub>
+
+
+<!-- Alinhamento Spec 007: 25 gp_*.yaml incluindo gp_route.yaml e gp_converge.yaml; science-review/integrative-review em reviews/ com gp_research -->

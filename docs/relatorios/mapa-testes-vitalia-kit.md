@@ -1,5 +1,5 @@
-<!-- mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 24-11-2026 11:17(GMT-04:00) -->
-**mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 24-11-2026 11:17(GMT-04:00)**
+<!-- mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 25-11-2026 19:10(GMT-04:00) -->
+**mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 25-11-2026 19:10(GMT-04:00)**
 
 # Mapa de Testes Repetíveis — Vitalia Kit v0.0.1+
 
@@ -35,7 +35,7 @@ flowchart LR
 ### T2 — Instalação no Projeto (`bin/install-project`) e `install.log`
 | ID | Caso de Teste | Comando / Verificação | Critério de Sucesso (PASS) |
 |---|---|---|---|
-| **T2.1** | Instalação limpa em projeto alvo | `/home/andre/.vitalia-kit/bin/install-project --project-dir /tmp/vitalia-test-rN --yes` | `exit 0`; 34+ skills materializadas; `.agents/AGENTS.md` e manifesto SHA-256 gerados. |
+| **T2.1** | Instalação limpa em projeto alvo | `<HOME>/.vitalia-kit/bin/install-project --project-dir /tmp/vitalia-test-rN --yes` | `exit 0`; 34+ skills materializadas; `.agents/AGENTS.md` e manifesto SHA-256 gerados. |
 | **T2.2** | **Selo de Data/Hora e Append em `install.log`** | Executar `install-project` **2 vezes** no mesmo diretório e inspecionar `install.log` | Cada execução registra data/hora (`DD-MM-YYYY HH:MM:SS(GMT-04:00)`) e **não apaga** os logs da tentativa anterior (append com separador de execução). |
 | **T2.3** | Localização do `install.log` | Verificar `.vitalia/install.log` e `.vitalia/memory/data_storage/telemetry/install.log` | Log acessível para diagnóstico do projeto e/ou telemetria na Camada 3 sem sobrescrita destrutiva. |
 | **T2.4** | Artefatos iniciais e `.gitignore` | Inspecionar `.vitalia/config.yml`, `feature.json`, `extensions.yml`, `session_ledger.json`, `.gitignore` | `config.yml` completo (`kit_version`, `kit_dir`, `project`, `domain_gates`, `memory`/`storage`); `feature.json`, `extensions.yml` e `session_ledger.json` criados; `.gitignore` protege `.env`, `.vitalia/config.yml`, `.vitalia/memory/`, `.vitalia/backups/`. |
@@ -62,7 +62,7 @@ flowchart LR
 | **T4.2** | **Riqueza Visual e Dados de Sessão (`session_repo/README.md`)** | Inspecionar `.vitalia/memory/session/README.md` | Apresenta painel visual rico (header, badges, status da sessão, shards de `session_ledger.json`, decisões de `decisions.jsonl`, aprendizados de `learnings.jsonl`, telemetria da Camada 3 e navegação relativa). Não é apenas uma tabela rudimentar de contagens. |
 | **T4.3** | Execução direta `data_storage_dashboard_renderer.py` | `${KIT_PYTHON} ${KIT_DIR}/src/rendering/data_storage_dashboard_renderer.py --storage-dir /tmp/vitalia-test-rN/.vitalia/memory/data_storage` | `exit 0` **sem** `PYTHONPATH` manual; grava `README.md` Nível 0 e Nível 1 nas categorias; links relativos válidos no GitHub. |
 | **T4.4** | **Riqueza Visual e Dados de Storage (`data_repo/README.md`)** | Inspecionar `.vitalia/memory/data_storage/README.md` e subpainéis Nível 1 | Apresenta painel visual rico com métricas, estado dos índices (`index.jsonl`), resumos por categoria e navegação Nível 0 ↔ Nível 1 ↔ Nível 2. |
-| **T4.5** | Flags CLI do Motor de Contexto | Testar `--action init`, `--action end --payload-file ...`, `--render-data-dashboard` | Flags documentadas nos contratos existem e respondem com `exit 0` (sem `unrecognized arguments`). |
+| **T4.5** | Flags CLI do Motor de Contexto | Testar `--action end --payload-file ...`, `--action list-pending-domains --json`, `--action consolidate`, `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding` | Todas as flags contratuais (`--action {end,list-pending-domains,consolidate}`) existem e respondem com `exit 0` (sem `unrecognized arguments`). |
 
 ---
 
@@ -81,14 +81,14 @@ flowchart LR
 | ID | Caso de Teste | Comando / Verificação | Critério de Sucesso (PASS) |
 |---|---|---|---|
 | **T6.1** | `--help` sem `PYTHONPATH` | Executar `${KIT_PYTHON} <script> --help` para todos os CLIs em `src/` | 100% `exit 0` sem `ModuleNotFoundError`. |
-| **T6.2** | Varredura de legado | `rg` em `${KIT_DIR}` por `vitalia-spec-kit`, `Vitalia SPEC Kit`, `.vitalia/session/data` | Zero ocorrências ativas em código/templates/configs. |
+| **T6.2** | Varredura de legado | `rg` em `${KIT_DIR}` por `vitalia-spec-kit`, `Vitalia SPEC Kit`, `session/data` (`memory/session/data`, `.vitalia/session/data`) | Zero ocorrências ativas em código/templates/configs. |
 
 ---
 
 ### T7 — Suíte Automatizada (`pytest` em `vitalia-kit/source`)
 | ID | Caso de Teste | Comando / Verificação | Critério de Sucesso (PASS) |
 |---|---|---|---|
-| **T7.1** | Testes unitários e de integração | `${KIT_PYTHON} -m pytest /home/andre/projetos/assistidos/vitalia-kit/source/tests/` | 100% dos testes passando sem skips ou caminhos legados. |
+| **T7.1** | Testes unitários e de integração | `${KIT_PYTHON} -m pytest <REPO_ROOT>/source/tests/` | 100% dos testes passando sem skips ou caminhos legados. |
 
 ---
 
@@ -96,6 +96,17 @@ flowchart LR
 
 | Rodada | Data (GMT-04:00) | Versão Kit | Resultado Resumido | Relatório |
 |---|---|---|---|---|
-| **Rodada 1** | 23-11-2026 | `v0.0.1` | ❌ Falhas críticas (A1–A8, B1–B9, C1–C5, D1–D5) | [relatorio-completo-testes-e-erros-turno-1.md](file:///home/andre/projetos/assistidos/vitalia-docs/docs/relatorios/relatorio-completo-testes-e-erros-turno-1.md) |
-| **Rodada 2** | 24-11-2026 | `v0.0.1` | ⚠️ Parcial (`install.log` sem data/hora e sobrescreve; dashboards rudimentares; D2/D3/D4/D5 e C3/C5 abertos) | [relatorio-rodada-2-vitalia-kit.md](file:///home/andre/projetos/assistidos/vitalia-docs/docs/relatorios/relatorio-rodada-2-vitalia-kit.md) |
+| **Rodada 1** | 23-11-2026 | `v0.0.1` | ❌ Falhas críticas (A1–A8, B1–B9, C1–C5, D1–D5) | [relatorio-completo-testes-e-erros-turno-1.md](./relatorio-completo-testes-e-erros-turno-1.md) |
+| **Rodada 2** | 24-11-2026 | `v0.0.1` | ⚠️ Parcial (`install.log` sem data/hora e sobrescreve; dashboards rudimentares; D2/D3/D4/D5 e C3/C5 abertos) | [relatorio-rodada-2-vitalia-kit.md](./relatorio-rodada-2-vitalia-kit.md) |
+| **Rodada 3** | 25-11-2026 | `v0.0.1` | ✅ PASS (Spec 007 / `48c9eac`: `202/202` `pytest`, `68/68` `--check`, `25/25` CLIs, `2× install-project` append `GMT-04:00`, docs sincronizados) | [relatorio-rodada-3-vitalia-kit.md](./relatorio-rodada-3-vitalia-kit.md) |
 
+
+
+---
+
+## Atualização Rodada 3 (Spec 007 — `T2.4`, `T3.5`, `T4.4`, `T4.5`, `T5.4`, `T6.2`, `T7.1`)
+- **T2.4 (`.gitignore`):** Validar presença de `.env`, `.vitalia/config.yml`, `.vitalia/memory/`, `.vitalia/backups/`, `.vitalia/install.log`, `.vitalia/end_payload.json`, `.vitalia/grounding_decisions_payload.json` e `.vitalia/*.tmp`.
+- **T3.5 (34 `.toml`):** Confirmar ausência de `file_path` em `[transport]`, prompts completos afirmativos (ADR-0003) + P03 (`vitalia-researcher`), `reviews/` + `gp_research` em revisões científicas.
+- **T4.4 / T4.5 (`vitalia_context_engine.py`):** Validar `--action {end,list-pending-domains,consolidate}`, `--payload-file`, `--kit-dir`, `--render-session-dashboard`, `--render-data-dashboard`, `--render-grounding`, `--update-grounding-domains` e preservação de `data_storage/README.md` Nível 0/1.
+- **T5.4 (`header_stamp.py`):** Validar `--cwd`, `--json` (`finding.schema.json`) e auditoria *read-only* de `.json`.
+- **T7.1 (`pytest`):** Executar a partir da raiz do repositório e de `source/` sem dependência de CWD fixo.
