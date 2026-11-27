@@ -1,0 +1,46 @@
+{
+  "description": "Contrato de cada registro em .vitalia/memory/data_storage/<categoria>/index.jsonl — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "json_path"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "json_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "md_path": {
+      "type": "string"
+    },
+    "workflow": {
+      "type": "string"
+    },
+    "machine_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "context",
+        "handoffs",
+        "diagnostics",
+        "research",
+        "backups",
+        "telemetry"
+      ]
+    }
+  }
+}

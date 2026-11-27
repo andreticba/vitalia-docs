@@ -1,0 +1,132 @@
+{
+  "description": "Contrato do payload transitorio .vitalia/grounding_decisions_payload.json para curadoria HITL Fluxo 1A (/vitalia-session-consolidate) — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "decisions"
+  ],
+  "properties": {
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "domain",
+          "scope"
+        ],
+        "properties": {
+          "target_id": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "global",
+              "local",
+              "rejected",
+              "domain_overlay",
+              "project"
+            ]
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "blocking",
+              "warning",
+              "info"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "project": {
+            "type": "string"
+          },
+          "gate": {
+            "type": "string"
+          },
+          "hitl_on_use": {
+            "type": "boolean"
+          },
+          "constitution_principles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authoritative_sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "url",
+                "source_tier",
+                "source_type",
+                "authority_scope",
+                "volatility"
+              ],
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "pattern": "^https?://"
+                },
+                "source_tier": {
+                  "type": "string",
+                  "enum": [
+                    "normative_standard",
+                    "official_vendor",
+                    "peer_reviewed",
+                    "community_reference"
+                  ]
+                },
+                "source_type": {
+                  "type": "string",
+                  "enum": [
+                    "standards_rfc",
+                    "official_vendor_docs",
+                    "legislation",
+                    "package_repository",
+                    "scientific_indexer",
+                    "security_standard",
+                    "llms_txt",
+                    "global_health_authority"
+                  ]
+                },
+                "authority_scope": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "volatility": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
+                }
+              }
+            }
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "decided_by": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

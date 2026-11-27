@@ -1,0 +1,160 @@
+{
+  "description": "Contrato de entrada semantica de ambiguidades detectadas pelo LLM em spec.md (/vitalia-clarify) — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "spec_file",
+    "ambiguities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "spec_file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "topic",
+          "impact",
+          "uncertainty"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^AMB-[0-9]{3,}$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Lexical",
+              "Syntactic",
+              "Semantic",
+              "Incompleteness",
+              "Vagueness",
+              "Inconsistency",
+              "NonVerifiable",
+              "Redundancy",
+              "Consumer",
+              "Boundary"
+            ]
+          },
+          "topic": {
+            "type": "string",
+            "minLength": 1
+          },
+          "spec_lines": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "target_text": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Dominio em ambiguity_scoring.yaml (ex.: general, architecture, security, clinical_safety)."
+          },
+          "impact": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 5.0
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ]
+              }
+            ]
+          },
+          "uncertainty": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 3.0
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved"
+            ]
+          },
+          "resolution": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "answer",
+                "technical_implications"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "answer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "technical_implications": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "detected_ambiguities": {
+      "type": "array",
+      "description": "Alias retrocompativel normalizado por sdd_ambiguity_scorer.py para 'ambiguities'.",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

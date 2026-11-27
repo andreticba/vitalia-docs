@@ -1,0 +1,113 @@
+{
+  "description": "Contrato do payload transitorio .vitalia/end_payload.json consumido por vitalia_context_engine.py --action end — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "task",
+    "p0"
+  ],
+  "properties": {
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "p0": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "in_progress",
+        "blocked"
+      ]
+    },
+    "mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "machine_id": {
+      "type": "string"
+    },
+    "machine_name": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "learnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "category",
+          "learning",
+          "rationale"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "KIT",
+              "PROJETO"
+            ]
+          },
+          "learning": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trigger_event": {
+            "type": "string"
+          },
+          "source_origin": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "category",
+          "decision",
+          "rationale"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "ARQUITETURA",
+              "PROJETO"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

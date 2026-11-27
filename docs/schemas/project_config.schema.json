@@ -1,0 +1,79 @@
+{
+  "description": "Contrato soberano da configuracao local do projeto em .vitalia/config.yml — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "kit_version",
+    "kit_dir",
+    "project",
+    "storage"
+  ],
+  "properties": {
+    "kit_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kit_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name",
+        "root"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "root": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "local-only",
+            "partial-repo",
+            "dual-repo"
+          ]
+        },
+        "session_repo": {
+          "type": "string"
+        },
+        "data_repo": {
+          "type": "string"
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "properties": {
+        "session_repo": {
+          "type": "string"
+        },
+        "data_repo": {
+          "type": "string"
+        }
+      }
+    },
+    "domain_gates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "installed_at": {
+      "type": "string"
+    }
+  }
+}

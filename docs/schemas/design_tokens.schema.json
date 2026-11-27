@@ -1,0 +1,45 @@
+{
+  "description": "Contrato de Design Tokens semanticos W3C DTCG e Tailwind CSS v4 em docs/design/design-tokens.json (/vitalia-figma-maestro) — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "color",
+    "typography",
+    "spacing"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "$description": {
+      "type": "string"
+    },
+    "color": {
+      "type": "object",
+      "description": "Grupos e tokens semanticos de cores (W3C DTCG $value, $type='color', $description) com contraste WCAG 2.2 AA."
+    },
+    "typography": {
+      "type": "object",
+      "description": "Escalas tipograficas (fontFamily, fontSize, fontWeight, lineHeight) no formato W3C DTCG."
+    },
+    "spacing": {
+      "type": "object",
+      "description": "Malha de espacamento consistente ($type='dimension') compativel com @theme do Tailwind CSS v4."
+    },
+    "radius": {
+      "type": "object",
+      "description": "Tokens opcionais de border-radius ($type='dimension')."
+    },
+    "elevation": {
+      "type": "object",
+      "description": "Tokens opcionais de sombras e elevacao ($type='shadow')."
+    },
+    "motion": {
+      "type": "object",
+      "description": "Tokens opcionais de duracao e curvas de transicao ($type='duration' / 'cubicBezier')."
+    },
+    "tailwind_theme": {
+      "type": "object",
+      "description": "Mapeamento opcional de variaveis CSS para o bloco @theme do Tailwind CSS v4."
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "description": "Contrato raiz do ledger .vitalia/memory/session/session_ledger.json — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "updated_at",
+    "shards"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "shard_id",
+          "machine_id",
+          "last_sync",
+          "task",
+          "next_step",
+          "status"
+        ],
+        "properties": {
+          "shard_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "machine_name": {
+            "type": "string"
+          },
+          "machine_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mode": {
+            "type": "string"
+          },
+          "last_sync": {
+            "type": "string",
+            "minLength": 1
+          },
+          "task": {
+            "type": "string",
+            "minLength": 1
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "next_step": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "in_progress",
+              "blocked"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
