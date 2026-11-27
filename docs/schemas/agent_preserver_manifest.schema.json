@@ -1,0 +1,28 @@
+{
+  "description": "Contrato do manifesto de integridade SHA-256 de skills em .vitalia/agent_preserver.manifest.json — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "updated_at",
+    "skills_count",
+    "files"
+  ],
+  "properties": {
+    "updated_at": {
+      "type": "string",
+      "description": "Timestamp ISO-8601 (GMT-04:00) da ultima atualizacao do manifesto."
+    },
+    "skills_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Quantidade total de skills protegidas no projeto."
+    },
+    "files": {
+      "type": "object",
+      "description": "Mapa de caminho relativo da skill para digest SHA-256 hexadecimal.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
+

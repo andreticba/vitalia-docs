@@ -1,11 +1,11 @@
-<!-- handoff-spec-010-contratos-toml-catalogos-v0.0.1.md | Vitalia Kit v0.0.1 | 26-11-2026 22:41(GMT-04:00) -->
-**handoff-spec-010-contratos-toml-catalogos-v0.0.1.md | Vitalia Kit v0.0.1 | 26-11-2026 22:41(GMT-04:00)**
+<!-- handoff-spec-010-contratos-toml-catalogos-v0.0.1.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00) -->
+**handoff-spec-010-contratos-toml-catalogos-v0.0.1.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00)**
 
 # Handoff Declarativo — Spec 010: Restauração dos 34 Workflows `.toml`, Vínculo `guardian.schemas`, Checklist Pré-Síntese (Ponto 1) e Catálogo Grounding (Pontos 6b/6c)
 
 > **Destino:** Sessão/máquina responsável pela execução da **Spec 010** (`specs/010-contratos-toml-catalogos-grounding/`) no repositório `vitalia-kit`, **imediatamente após o fechamento e bootstrap da Spec 009**.  
-> **Oráculo Canônico de Estado-Alvo (Âncora para `SC-xxx` e Testes de Paridade):** [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) (já descongelado e consolidado com os **34 blocos `.toml` literais** nas Seções 3–5, os **25 `gp_*.yaml`** na Seção 6, as **10 fontes 6b + `hitl_on_use` 6c** na Seção 7.5, a **Matriz de Rastreabilidade** na Seção 10 e os **34 schemas** na Seção 11).  
-> **Pré-requisito Obrigatório:** [handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md](./handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md) concluído (`34` schemas instalados em `source/src/schemas/`, `GuardianContextV2` injetando `guardian.schemas`, `sdd_ambiguity_scorer.py --resolve`, `vitalia_handoff.py create` por flags CLI e `sdd_architect_mode_classifier.py` com aliases CLI).  
+> **Oráculo Canônico de Estado-Alvo (Âncora para `SC-xxx` e Testes de Paridade):** [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) (já descongelado e consolidado com os **34 blocos `.toml` literais** nas Seções 3–5, os **25 `gp_*.yaml`** na Seção 6, as **10 fontes 6b + `hitl_on_use` 6c** na Seção 7.5, a **Matriz de Rastreabilidade** na Seção 10 e os **36 schemas** na Seção 11).  
+> **Pré-requisito Obrigatório:** [handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md](./handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md) concluído (`36` schemas instalados em `source/src/schemas/`, `GuardianContextV2` injetando `guardian.schemas`, `sdd_ambiguity_scorer.py --resolve`, `vitalia_handoff.py create` por flags CLI e `sdd_architect_mode_classifier.py` com aliases CLI).  
 > **Auditoria de Origem:** [brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md](./brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md) (Seções 8 e 9).
 
 ---
@@ -91,20 +91,20 @@ Antes de gravar as 10 novas fontes nas camadas declarativas, acionar o subagente
 | Domínio Alvo | Camada Declarativa em `source/layers/grounding/` | Nova Fonte (`url`) | `source_tier` | `source_type` | `authority_scope` | `volatility` |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | `design_patterns` | `base.yaml` | `https://martinfowler.com/` | `community_reference` | `official_vendor_docs` | `Martin Fowler Software Architecture Catalog` | `low` |
-| `web_frameworks` | `overlays/web.yaml` | `https://fastapi.tiangolo.com/` | `official_vendor` | `official_vendor_docs` | `FastAPI Official Documentation` | `medium` |
-| `web_frameworks` | `overlays/web.yaml` | `https://vuejs.org/` | `official_vendor` | `official_vendor_docs` | `Vue.js Official Documentation` | `medium` |
-| `devops_ci` | `overlays/devops.yaml` | `https://developer.hashicorp.com/terraform/docs` | `official_vendor` | `official_vendor_docs` | `HashiCorp Terraform Documentation` | `medium` |
-| `cloud_services` | `overlays/cloud.yaml` | `https://docs.aws.amazon.com/` | `official_vendor` | `official_vendor_docs` | `AWS Official Documentation` | `medium` |
-| `cloud_services` | `overlays/cloud.yaml` | `https://learn.microsoft.com/en-us/azure/` | `official_vendor` | `official_vendor_docs` | `Microsoft Azure Documentation` | `medium` |
-| `javascript_ecosystem` | `overlays/javascript.yaml` | `https://nodejs.org/docs/latest/api/` | `official_vendor` | `official_vendor_docs` | `Node.js Official API Docs` | `medium` |
-| `javascript_ecosystem` | `overlays/javascript.yaml` | `https://docs.npmjs.com/` | `official_vendor` | `official_vendor_docs` | `npm Official Documentation` | `low` |
-| `provedores_de_ia` | `overlays/ai_providers.yaml` | `https://huggingface.co/docs` | `official_vendor` | `official_vendor_docs` | `Hugging Face Hub & Transformers Docs` | `high` |
-| `provedores_de_ia` | `overlays/ai_providers.yaml` | `https://docs.langchain.com/` | `official_vendor` | `official_vendor_docs` | `LangChain Official Documentation` | `high` |
+| `web_frameworks` | `overlays/stack_fullstack.yaml` | `https://fastapi.tiangolo.com/` | `official_vendor` | `official_vendor_docs` | `FastAPI Official Documentation` | `medium` |
+| `web_frameworks` | `overlays/stack_fullstack.yaml` | `https://vuejs.org/` | `official_vendor` | `official_vendor_docs` | `Vue.js Official Documentation` | `medium` |
+| `devops_ci` | `overlays/stack_fullstack.yaml` | `https://developer.hashicorp.com/terraform/docs` | `official_vendor` | `official_vendor_docs` | `HashiCorp Terraform Documentation` | `medium` |
+| `cloud_services` | `overlays/stack_fullstack.yaml` | `https://docs.aws.amazon.com/` | `official_vendor` | `official_vendor_docs` | `AWS Official Documentation` | `medium` |
+| `cloud_services` | `overlays/stack_fullstack.yaml` | `https://learn.microsoft.com/en-us/azure/` | `official_vendor` | `official_vendor_docs` | `Microsoft Azure Documentation` | `medium` |
+| `javascript_ecosystem` | `overlays/stack_fullstack.yaml` | `https://nodejs.org/docs/latest/api/` | `official_vendor` | `official_vendor_docs` | `Node.js Official API Docs` | `medium` |
+| `javascript_ecosystem` | `overlays/stack_fullstack.yaml` | `https://docs.npmjs.com/` | `official_vendor` | `official_vendor_docs` | `npm Official Documentation` | `low` |
+| `provedores_de_ia` | `overlays/stack_fullstack.yaml` | `https://huggingface.co/docs` | `official_vendor` | `official_vendor_docs` | `Hugging Face Hub & Transformers Docs` | `high` |
+| `provedores_de_ia` | `overlays/stack_fullstack.yaml` | `https://docs.langchain.com/` | `official_vendor` | `official_vendor_docs` | `LangChain Official Documentation` | `high` |
 
 ### 2.2 Declaração Explícita de `hitl_on_use` nos 12 Domínios (Ponto 6c)
-Declarar `hitl_on_use` explicitamente em todos os 12 domínios de `source/layers/grounding/{base.yaml,overlays/*.yaml}`:
-- `hitl_on_use: true` $\rightarrow$ `clinical_safety` e `regulations_compliance` (`overlays/health.yaml`).
-- `hitl_on_use: false` $\rightarrow$ `general_web`, `security_practices`, `software_architecture`, `design_patterns` (`base.yaml`) e `python_packages`, `provedores_de_ia`, `web_frameworks`, `javascript_ecosystem`, `devops_ci`, `cloud_services` (`overlays/*.yaml`).
+Declarar `hitl_on_use` explicitamente em todos os 12 domínios de `source/layers/grounding/{base.yaml,overlays/{clinical_health,stack_fullstack}.yaml}`:
+- `hitl_on_use: true` $\rightarrow$ `clinical_safety` e `regulations_compliance` (`overlays/clinical_health.yaml`).
+- `hitl_on_use: false` $\rightarrow$ `general_web`, `security_practices`, `software_architecture`, `design_patterns` (`base.yaml`) e `python_packages`, `provedores_de_ia`, `web_frameworks`, `javascript_ecosystem`, `devops_ci`, `cloud_services` (`overlays/stack_fullstack.yaml`).
 
 ---
 
@@ -115,6 +115,13 @@ Expandir a suíte `test_extension_prompt_identity.py` (`[TEST:NEW]` + `[TEST:BUG
 2. **Verificação do Checklist Pré-Síntese (`- [ ]`) nos `16/16` workflows alvo:** Asserção parametrizada verificando a presença de `- [ ]` e `GROUNDING_AUDIT.md` nos 16 workflows (`brainstorming`, `architect`, `spec-specify`, `spec-plan`, `science-review`, `integrative-review` e os `10` especialistas).
 3. **Integridade de `guardian.schemas` e `yaml_sources`:** Verificar que todo arquivo listado em `[guardian].schemas` de qualquer `.toml` existe fisicamente em `source/src/schemas/` e todo item em `[guardian].yaml_sources` existe em `source/profiles/<name>.yaml`.
 4. **Zero caminho `source/` hardcoded em `[context].reads` / `writes`** dos 34 `.toml` (protegendo projetos clientes).
+
+---
+
+## 4. Bloco 4 — Higiene Documental Final no `vitalia-kit`
+
+1. **`vitalia-kit/README.md`:** Atualizar identidade (`Vitalia Kit`), contagem de `25 Guardian Profiles`, `36 schemas OpenAPI 3.0.3` e contagem real da suíte `pytest` após a expansão do Guardrail `G1`.
+2. **`vitalia-kit/docs/RASCUNHO_PORTAO_GROUNDING_P03.md`:** Substituir links `file://` residuais por caminhos relativos portáveis e alinhar o SRP de `vitalia_grounding_validator.py` (sem `--render`).
 
 ---
 

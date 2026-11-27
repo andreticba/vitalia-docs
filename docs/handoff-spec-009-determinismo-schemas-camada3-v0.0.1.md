@@ -1,12 +1,12 @@
-<!-- handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md | Vitalia Kit v0.0.1 | 26-11-2026 22:41(GMT-04:00) -->
-**handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md | Vitalia Kit v0.0.1 | 26-11-2026 22:41(GMT-04:00)**
+<!-- handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00) -->
+**handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00)**
 
 # Handoff de Engenharia — Spec 009: Schemas Faltantes, Determinismo Python, Fluxo 1A P03 e Higiene da Camada 3 (Vitalia Kit v0.0.1)
 
 > **Destino:** Sessão/máquina responsável pela execução da **Spec 009** (`specs/009-determinismo-schemas-camada3/`) no repositório `vitalia-kit` (`HEAD >= 8ca2398`).  
-> **Oráculo Canônico de Estado-Alvo (Âncora para `SC-xxx`):** [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) (já atualizado pós-descongelamento da `D-20261124-01` com as Seções 7, 7.5, 8 e as definições JSON integrais dos **34 schemas `#01` a `#34`** na Seção 11.2).  
+> **Oráculo Canônico de Estado-Alvo (Âncora para `SC-xxx`):** [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) (já atualizado pós-descongelamento da `D-20261124-01` com as Seções 7, 7.5, 8 e as definições JSON integrais dos **36 schemas `#01` a `#36`** na Seção 11.2).  
 > **Documento Base de Auditoria:** [brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md](./brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md) (Seções 2 a 7.1).  
-> **Artefatos Prontos para Cópia:** [docs/schemas/](./schemas/README.md) (`10` novos arquivos `.schema.json` em OpenAPI 3.0.3 Limpo — P11).  
+> **Artefatos Prontos para Cópia:** [docs/schemas/](./schemas/README.md) (`12` novos arquivos `.schema.json` em OpenAPI 3.0.3 Limpo — P11, cobrindo 100% dos `.json`, `.jsonl` e `.yaml`/`.yml`).  
 > **Etapa Subsequente (Separada por Design):** [handoff-spec-010-contratos-toml-catalogos-v0.0.1.md](./handoff-spec-010-contratos-toml-catalogos-v0.0.1.md).
 
 ---
@@ -18,15 +18,16 @@
    - **Fora de escopo da Spec 009 (reservado à Spec 010):** reescrita declarativa dos `34` arquivos `source/layers/extensions/*.toml` e adição das `10` novas fontes autoritativas externas em `source/layers/grounding/`. Entregar e testar primeiro as CLIs determinísticas e a injeção `guardian.schemas` garante que a Spec 010 apoie-se sobre primitivas já provadas.
 2. **Inviolabilidade do Ciclo SDD (`P01`) e Matriz `P05`:**
    - Executar o fluxo completo (`specify → clarify → plan → tasks → task-verifier → analyze → implement → converge`) comprovando **Red Phase $\rightarrow$ Green Phase** em cada tarefa e classificando explicitamente `[TEST:NEW]`, `[TEST:BUGFIX]`, `[TEST:REFACTOR]` e `[TEST:MIGRATION]`.
-3. **Preservação Integral da Suíte Existente:**
-   - Manter 100% de retrocompatibilidade nas assinaturas CLI já consumidas pelos testes das Specs 005–008 (`--payload` em `vitalia_handoff.py create`, `--input` e JSON com `weights` em `sdd_ambiguity_scorer.py`, `grounding_decision == "pending"` legado em fixtures de `GroundingDomainUpdater`).
+3. **Política de Retrocompatibilidade (P05):**
+   - Manter retrocompatibilidade nas assinaturas CLI já consumidas pelos testes das Specs 005–008 (`--payload` em `vitalia_handoff.py create`, `--input` e JSON com `weights` em `sdd_ambiguity_scorer.py`).
+   - **Zero retrocompatibilidade em `GroundingDomainUpdater` (`N2`):** remover qualquer fallback legado para `grounding_decision == "pending"` e migrar explicitamente as fixtures de teste para o contrato canônico (`evidence_record.schema.json` + Via Derivada) sob `[TEST:MIGRATION]`.
 
 ---
 
-## 1. Bloco 1 — Expansão Canônica de `source/src/schemas/` (`24` $\rightarrow$ `34` Schemas OpenAPI 3.0.3 P11)
+## 1. Bloco 1 — Expansão Canônica de `source/src/schemas/` (`24` $\rightarrow$ `36` Schemas OpenAPI 3.0.3 P11)
 
-### 1.1 Cópia dos 10 Novos Schemas (`#25` a `#34`)
-Copiar os 10 schemas validados em `vitalia-docs/docs/schemas/*.schema.json` para `source/src/schemas/`:
+### 1.1 Cópia dos 12 Novos Schemas (`#25` a `#36`)
+Copiar os 12 schemas validados em `vitalia-docs/docs/schemas/*.schema.json` para `source/src/schemas/`:
 1. `ambiguity_findings.schema.json` (`#25` — entrada semântica de `/vitalia-clarify`: `schema_version`, `spec_file`, `ambiguities` + alias opcional `detected_ambiguities`).
 2. `end_payload.schema.json` (`#26` — payload transitório `.vitalia/end_payload.json` consumido por `vitalia_context_engine.py --action end`).
 3. `grounding_decisions_payload.schema.json` (`#27` — payload transitório `.vitalia/grounding_decisions_payload.json` do Fluxo 1A).
@@ -37,6 +38,8 @@ Copiar os 10 schemas validados em `vitalia-docs/docs/schemas/*.schema.json` para
 8. `session_ledger.schema.json` (`#32` — documento raiz `.vitalia/memory/session/session_ledger.json`).
 9. `project_config.schema.json` (`#33` — configuração `.vitalia/config.yml`).
 10. `design_tokens.schema.json` (`#34` — contrato W3C DTCG / Tailwind v4 de `docs/design/design-tokens.json` para `figma-maestro`).
+11. `agent_preserver_manifest.schema.json` (`#35` — manifesto SHA-256 de skills `.vitalia/agent_preserver.manifest.json`).
+12. `extensions_config.schema.json` (`#36` — configuração `.vitalia/extensions.yml`).
 
 ### 1.2 Adições Cirúrgicas nos Schemas Existentes `#01` e `#07`
 1. **`source/src/schemas/context-lifting-envelope.schema.json` (`#01`):**
@@ -48,7 +51,7 @@ Copiar os 10 schemas validados em `vitalia-docs/docs/schemas/*.schema.json` para
 ### 1.3 Migração Obrigatória em `source/tests/test_schemas_openapi30_p11.py` (`[TEST:MIGRATION]`)
 > [!IMPORTANT]
 > **Armadilha Real Detectada na Inspeção:** `source/tests/test_schemas_openapi30_p11.py` (`L17-42, L71-78`) possui `EXPECTED_24_SCHEMAS` e a asserção rígida `assert len(actual_schemas) == 24`.
-- Atualizar a lista canônica para os **34 schemas** (`EXPECTED_34_SCHEMAS`, mantendo alias ou migrando o teste via `[TEST:MIGRATION]`), parametrizando `test_schema_clean_openapi30_rules` sobre os 34 arquivos e adicionando validação cruzada de `profiles/architect_modes.yaml` contra `architect_modes.schema.json` e `profiles/ambiguity_taxonomy.yaml` contra `ambiguity_taxonomy_catalog.schema.json`.
+- Atualizar a lista canônica para os **36 schemas** (`EXPECTED_36_SCHEMAS`, mantendo alias ou migrando o teste via `[TEST:MIGRATION]`), parametrizando `test_schema_clean_openapi30_rules` sobre os 36 arquivos e adicionando validação cruzada de `profiles/architect_modes.yaml` contra `architect_modes.schema.json` e `profiles/ambiguity_taxonomy.yaml` contra `ambiguity_taxonomy_catalog.schema.json`.
 
 ---
 
@@ -119,8 +122,8 @@ Tornar `--payload` **opcional** e `--handoff-dir` com default `".vitalia/memory/
    - Em `list_pending_domains()`:
      - Carregar domínios já catalogados em `<kit_dir_resolvido>/profiles/grounding_domains.yaml` (excluindo `"general_web"`) e domínios/URLs já decididos (`approved` ou `rejected`) em `.vitalia/memory/data_storage/grounding_decisions.jsonl`.
      - Ler `.vitalia/memory/data_storage/research/*/evidence.jsonl`:
-       - Contrato canônico pós-Spec 008: registros com `rec.get("domain_match") == "general_web"` (extraindo `domain_candidate` de `rec.get("suggested_domain")` ou hostname normalizado de `final_url`/`url`, `url`, `sha256`, `theme`), desde que ainda não decididos/catalogados.
-       - Fallback legado: continuar reconhecendo `rec.get("grounding_decision") == "pending"` para fixtures anteriores à Spec 008.
+       - **Contrato canônico pós-Spec 008 (Zero Retrocompatibilidade):** identificar pendências exclusivamente pela **Via Derivada** (`rec.get("domain_match") == "general_web"` cujo `domain_candidate` — extraído de `rec.get("suggested_domain")` ou hostname normalizado de `final_url`/`url` — ainda não conste em `grounding_decisions.jsonl` nem nos domínios catalogados), retornando chaves canônicas (`domain_match`, `url`, `sha256`, `theme`).
+       - Remover suporte legado a `grounding_decision == "pending"` e migrar fixtures de teste via `[TEST:MIGRATION]`.
    - Em `apply_decisions()`: quando receber `dict` com `"decisions"`, validar contra `grounding_decisions_payload.schema.json`.
    - Em `_promote_to_catalog()`: preservar `hitl_on_use` (`bool`) e `constitution_principles` (`list[str]`) tanto quando informados na decisão quanto quando já existentes na entrada prévia do catálogo.
 2. **`source/src/rendering/dashboard_renderer.py` (`N2`):**
@@ -143,8 +146,8 @@ Tornar `--payload` **opcional** e `--handoff-dir` com default `".vitalia/memory/
 2. **Injeção Automática de `guardian.schemas` em `guardian_json["schemas"]` (`[TEST:NEW]`):**
    - Implementar `load_schema(self, schema_filename: str) -> Optional[Dict[str, Any]]` buscando em `self.kit_root / "src" / "schemas" / schema_filename`, `self.kit_root / "source" / "src" / "schemas" / schema_filename` e `self.cwd / "source" / "src" / "schemas" / schema_filename` (rejeitando path traversal `..` ou barras `/` — P12).
    - Em `build_context()`: carregar todos os nomes listados em `self.guardian_config.get("schemas", [])` para `result_payload["schemas"] = loaded_schemas` (dict `{filename: schema_dict}`).
-3. **Filtro de TTL em `latest_handoff()` e `p0` em `_load_session_context(profile)`:**
-   - Em `latest_handoff()`: ignorar handoffs `"pending"` cujo `created_at + ttl_seconds` já tenha expirado (`_is_expired`).
+3. **Filtro de TTL e `$schema` em `latest_handoff()` e `p0` em `_load_session_context(profile)`:**
+   - Em `latest_handoff()`: ignorar handoffs com `"$schema"` na raiz (P11) e handoffs `"pending"` cujo `created_at + ttl_seconds` já tenha expirado (`_is_expired`).
    - Em `_load_session_context(profile)`: respeitar `sc_cfg = profile.get("session_context", {})`; quando `sc_cfg.get("include_p0", True)` estiver ativo e `session_ledger.json` contiver shards, popular `session_ctx["p0"] = shards[0].get("next_step", "")`.
 4. **Escritas Atômicas e Placeholder Defensivo:**
    - Usar `atomic_write_json` em `GuardianContextV2.export_and_publish()` (`L285`).
@@ -174,16 +177,17 @@ Tornar `--payload` **opcional** e `--handoff-dir` com default `".vitalia/memory/
 
 | ID | Modalidade P05 | Alvo | Cenário de Falsificação Obrigatório |
 | :---: | :---: | :--- | :--- |
-| **V1** | `[TEST:MIGRATION]` | `test_schemas_openapi30_p11.py` | Falha se qualquer um dos 34 schemas contiver `$schema`, `title` raiz, `additionalProperties: false`, `type` array/`null`, ou se `architect_modes.yaml` / `ambiguity_taxonomy.yaml` violarem seus novos schemas. |
+| **V1** | `[TEST:MIGRATION]` | `test_schemas_openapi30_p11.py` | Falha se qualquer um dos 36 schemas contiver `$schema`, `title` raiz, `additionalProperties: false`, `type` array/`null`, ou se `architect_modes.yaml` / `ambiguity_taxonomy.yaml` violarem seus novos schemas. |
 | **V2** | `[TEST:BUGFIX]` | `sdd_ambiguity_scorer.py` | Falha se passar `profiles/ambiguity_scoring.yaml` + `profiles/ambiguity_taxonomy.yaml` reais lançar `JSONDecodeError`, se `priority_score` ignorar `impact_scale`/`domain_multipliers` ou se `--taxonomy` corrompido retornar `exit 0`. |
 | **V3** | `[TEST:NEW]` | `sdd_ambiguity_scorer.py --resolve` | Falha se resolver `AMB-001` não reduzir `total_ambiguities` e `defect_density` até `0.0` preservando `resolved_ambiguities`. |
 | **V4** | `[TEST:NEW]` | `vitalia_handoff.py create` | Falha se invocação apenas por flags CLI (`--source`, `--target`, `--direction`, `--summary`) falhar, omitir `handoffs/index.jsonl` ou emitir `$schema`, ou se `--payload` legado quebrar. |
-| **V5** | `[TEST:BUGFIX]` | Fluxo 1A (`N2` + `N3` + Ponto 5) | Falha se `evidence.jsonl` com `domain_match: "general_web"` retornar `0` pendentes, se `machine_name` gravar `"('...', '...')"`, ou se `--action end` mutar `grounding-domains.jsonl`. |
-| **V6** | `[TEST:NEW]` | `GuardianContextV2` (`schemas`, TTL, `p0`, `N5`) | Falha se `guardian.schemas` não for injetado em `guardian_json["schemas"]`, se handoff expirado for injetado em `session_context.handoff`, ou se `28-10-2026` ordenar acima de `02-11-2026`. |
+| **V5** | `[TEST:MIGRATION]` + `[TEST:BUGFIX]` | Fluxo 1A (`N2` + `N3` + Ponto 5 + **Guardrail G3**) | Falha se `evidence.jsonl` com `domain_match: "general_web"` retornar `0` pendentes, se `machine_name` ou `source_origin` gravarem tupla `"('...', '...')"`, ou se `--action end` mutar `grounding-domains.jsonl`. |
+| **V6** | `[TEST:NEW]` | `GuardianContextV2` (`schemas`, TTL, `$schema`, `p0`, `N5` + **Guardrail G3**) | Falha se `guardian.schemas` não for injetado em `guardian_json["schemas"]`, se handoff expirado ou com `"$schema"` for injetado em `session_context.handoff`, ou se na virada de mês `25-11-2026` ordenar acima de `01-12-2026`. |
 | **V7** | `[TEST:BUGFIX]` | `vitalia_tmp_cleanup.py` + `scan_environment.py` | Falha se arquivos `.json`/`.log` órfãos fora de `context/index.jsonl` permanecerem após `--types context --force` mantendo `needs_cleanup: true`, ou se `research/<tema>/snapshots/` sobreviver após limpeza $> 90$d. |
+| **V8** | `[TEST:NEW]` | Fluxo 1A E2E (**Guardrail G4**) | Falha se o ciclo completo (`research/evidence.jsonl` com `general_web` $\rightarrow$ `list-pending-domains` $\rightarrow$ `session-consolidate` $\rightarrow$ `grounding_decisions.jsonl` $\rightarrow$ `grounding_domains.yaml` $\rightarrow$ `pending == 0`) quebrar em qualquer etapa. |
 
 ### Portão Final de Fechamento da Spec 009
-1. Paridade 100% dos **34 schemas** em `source/src/schemas/` contra a Seção 11.2 do Oráculo [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) e `test_schemas_openapi30_p11.py` $\rightarrow$ `PASS`.
+1. Paridade 100% dos **36 schemas** em `source/src/schemas/` contra a Seção 11.2 do Oráculo [CONTRATOS_WORKFLOWS_SDD.md](./CONTRATOS_WORKFLOWS_SDD.md) e `test_schemas_openapi30_p11.py` $\rightarrow$ `PASS`.
 2. `<kit_python> source/src/vitalia_layer_compiler.py --layers-dir source/layers --out-dir source --check --json` $\rightarrow$ `PASS`.
 3. `<kit_python> -m pytest source/tests/` (executado em dual-CWD) $\rightarrow$ `100% PASS`.
 4. `<kit_python> source/src/maintenance/header_stamp.py --check --root . --json` e sensores VRSS (`sensor_purity.py`, `sensor_path_hygiene.py`, `sensor_tokens_leak.py`, `sensor_memory_ledger.py`) $\rightarrow$ `PASS`.

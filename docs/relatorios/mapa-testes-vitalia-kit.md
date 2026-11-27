@@ -1,5 +1,5 @@
-<!-- mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 25-11-2026 19:10(GMT-04:00) -->
-**mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 25-11-2026 19:10(GMT-04:00)**
+<!-- mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 27-11-2026 10:36(GMT-04:00) -->
+**mapa-testes-vitalia-kit.md | Vitalia Kit v0.0.1 | 27-11-2026 10:36(GMT-04:00)**
 
 # Mapa de Testes Repetíveis — Vitalia Kit v0.0.1+
 
@@ -89,6 +89,16 @@ flowchart LR
 | ID | Caso de Teste | Comando / Verificação | Critério de Sucesso (PASS) |
 |---|---|---|---|
 | **T7.1** | Testes unitários e de integração | `${KIT_PYTHON} -m pytest <REPO_ROOT>/source/tests/` | 100% dos testes passando sem skips ou caminhos legados. |
+
+---
+
+### T8 — Portão P03, Pipeline do `vitalia-researcher` & Fluxo 1A
+| ID | Caso de Teste | Comando / Verificação | Critério de Sucesso (PASS) |
+|---|---|---|---|
+| **T8.1** | Contrato canônico `evidence_record` + `--evidence-dir` | `${KIT_PYTHON} ${KIT_DIR}/src/vitalia_grounding_validator.py --mode evidence --evidence-dir <tema_dir> --strict` | `exit 0`; valida cada linha contra `evidence_record.schema.json`; bloqueia `http_status != 200`, `status: "unverified"` ou `literal_quote` ausente do snapshot. |
+| **T8.2** | Renderização `GROUNDING_AUDIT.md` sem `file://` | `${KIT_PYTHON} ${KIT_DIR}/src/rendering/grounding_audit_renderer.py --evidence-dir <tema_dir>` | `exit 0`; zero links `file://` e zero placeholders crus (`{topic}`, `{timestamp}`); emite links relativos (`./snapshots/<sha>.txt`, `./evidence.jsonl`, `../README.md`). |
+| **T8.3** | Fluxo 1A ponta-a-ponta (`general_web` → `grounding_domains.yaml`) | Simular `evidence.jsonl` com `domain_match: "general_web"` → `list-pending-domains --json` → `consolidate --update-grounding-domains --grounding-decisions-file ...` | `list-pending-domains` lista o domínio pendente; após consolidação HITL, domínio é promovido/registrado e nova execução retorna `0` pendentes (sem regressão em `grounding-domains.jsonl`). |
+| **T8.4** | Paridade de Schemas P11 (`36/36`) e `latest_handoff` | `${KIT_PYTHON} -m pytest source/tests/test_schemas_openapi30_p11.py` | 100% dos **36 schemas** válidos sob OpenAPI 3.0.3 Limpo (P11); `latest_handoff()` ignora handoffs expirados ou com `"$schema"`. |
 
 ---
 

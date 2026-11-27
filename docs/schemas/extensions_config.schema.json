@@ -1,0 +1,25 @@
+{
+  "description": "Contrato de extensoes e workflows customizados do projeto em .vitalia/extensions.yml — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "enabled_extensions",
+    "custom_workflows"
+  ],
+  "properties": {
+    "enabled_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de extensoes habilitadas no projeto cliente."
+    },
+    "custom_workflows": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de workflows customizados registrados no projeto."
+    }
+  }
+}
+

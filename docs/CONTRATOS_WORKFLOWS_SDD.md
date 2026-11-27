@@ -1,8 +1,8 @@
-<!-- CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 26-11-2026 22:25(GMT-04:00) -->
-**CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 26-11-2026 22:25(GMT-04:00)**
+<!-- CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 27-11-2026 10:36(GMT-04:00) -->
+**CONTRATOS_WORKFLOWS_SDD.md | Vitalia Kit v0.0.1 | 27-11-2026 10:36(GMT-04:00)**
 
 # Manual Normativo de Contratos: Coleção Completa de Agentes, Especialistas, Workflows e Schemas (Vitalia Kit v0.0.1)
-## Especificação Canônica Consolidada — Oráculo de Estado-Alvo Pós-Specs 007, 008, 009 e 010 (Dual-Runtime, Determinismo Python, 34 Schemas OpenAPI 3.0.3 e Higiene de Camada 3)
+## Especificação Canônica Consolidada — Oráculo de Estado-Alvo Pós-Specs 007, 008, 009 e 010 (Dual-Runtime, Determinismo Python, 36 Schemas OpenAPI 3.0.3 e Higiene de Camada 3)
 
 > [!IMPORTANT]
 > **Papel Canônico deste Documento (Superação da Decisão `D-20261124-01`):**
@@ -19,7 +19,7 @@ Este manual normativo consolida em um único documento mestre autossuficiente:
 8. A **Governança do Classificador RRF de Modos do Architect** (`architect_modes.yaml` & `sdd_architect_mode_classifier.py`).
 9. A **Estratégia de Sensores e Observabilidade de Runtime (VRSS)** em malha fechada.
 10. A **Matriz Geral de Rastreabilidade, Ferramentas e Schemas dos 34 Workflows**.
-11. O **Catálogo Canônico e as Definições JSON Integrais dos 34 Schemas OpenAPI 3.0.3 Limpos (`#01` a `#34`)**.
+11. O **Catálogo Canônico e as Definições JSON Integrais dos 36 Schemas OpenAPI 3.0.3 Limpos (`#01` a `#36`)**.
 
 ---
 
@@ -3862,14 +3862,14 @@ A matriz abaixo consolida **todos os 34 workflows operacionais** do **Vitalia Ki
 
 ---
 
-## 11. Parte IX: Catálogo Canônico e Definições Integrais dos 34 Schemas OpenAPI 3.0.3 Limpos (`source/src/schemas/`)
+## 11. Parte IX: Catálogo Canônico e Definições Integrais dos 36 Schemas OpenAPI 3.0.3 Limpos (`source/src/schemas/`)
 
-Em estrita observância ao princípio constitucional **P11** e à suíte `source/tests/test_schemas_openapi30_p11.py` (`EXPECTED_34_SCHEMAS`), **todos os 34 contratos JSON** em `source/src/schemas/` obedecem às invariantes:
+Em estrita observância ao princípio constitucional **P11** e à suíte `source/tests/test_schemas_openapi30_p11.py` (`EXPECTED_36_SCHEMAS`), **todos os 36 contratos JSON** em `source/src/schemas/` obedecem às invariantes:
 - Raiz `"type": "object"` com chaves de topo restritas a `["description", "type", "required", "properties"]`.
 - Ausência absoluta de `"$schema"`, `"title"` na raiz, `"additionalProperties": false`, arrays em `type` e `"type": "null"`.
 - Nomenclatura padronizada `*.schema.json` (preservando `vitalia-handoff-v1.0.0.json` pelo contrato inter-agente).
 
-### 11.1 Tabela Mestra dos 34 Schemas Canônicos (`#01` a `#34`)
+### 11.1 Tabela Mestra dos 36 Schemas Canônicos (`#01` a `#36`)
 
 | # | Arquivo em `source/src/schemas/` | Domínio | Consumidor / Produtor Principal | Campos Obrigatórios (`required`) e Contrato Essencial |
 | :---: | :--- | :--- | :--- | :--- |
@@ -3907,10 +3907,12 @@ Em estrita observância ao princípio constitucional **P11** e à suíte `source
 | **32** | `session_ledger.schema.json` | Memória 3-Tier (Spec 009) | `.vitalia/memory/session/session_ledger.json` / `sensor_memory_ledger.py` | `schema_version`, `updated_at`, `shards` (`shard_id`, `machine_id`, `last_sync`, `task`, `next_step`, `status`, opcionais `machine_name`, `mode`, `steps`) |
 | **33** | `project_config.schema.json` | Configuração Camada 3 (Spec 009) | `.vitalia/config.yml` (`install-project` / `kit_env_bootstrap.py`) | `kit_version`, `kit_dir`, `project` (`name`, `root`), `storage` (`mode: local-only|partial-repo|dual-repo`, `session_repo`, `data_repo`), opcionais `memory`, `domain_gates`, `installed_at` |
 | **34** | `design_tokens.schema.json` | Design System (Spec 009/010) | `docs/design/design-tokens.json` (`/vitalia-figma-maestro`) | `color`, `typography`, `spacing` (W3C DTCG `$value`, `$type`, `$description` + compatibilidade `@theme` Tailwind CSS v4), opcionais `schema_version`, `$description`, `radius`, `elevation`, `motion`, `tailwind_theme` |
+| **35** | `agent_preserver_manifest.schema.json` | Integridade Skills (Spec 009) | `.vitalia/agent_preserver.manifest.json` (`install-project` / `agent_preserver.py`) | `updated_at`, `skills_count`, `files` (mapa caminho relativo $\rightarrow$ SHA-256) |
+| **36** | `extensions_config.schema.json` | Configuração Camada 3 (Spec 009) | `.vitalia/extensions.yml` (`install-project`) | `enabled_extensions`, `custom_workflows` |
 
 ---
 
-### 11.2 Definições JSON Integrais dos 34 Schemas Canônicos (`#01` a `#34`)
+### 11.2 Definições JSON Integrais dos 36 Schemas Canônicos (`#01` a `#36`)
 
 *(Definições literais prontas para paridade byte-a-byte/estrutural com `source/src/schemas/`):*
 
@@ -6721,6 +6723,67 @@ Em estrita observância ao princípio constitucional **P11** e à suíte `source
 }
 ```
 
+#### Schema `#35`: `agent_preserver_manifest.schema.json` (Integridade Skills (Spec 009))
+
+```json
+{
+  "description": "Contrato do manifesto de integridade SHA-256 de skills em .vitalia/agent_preserver.manifest.json — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "updated_at",
+    "skills_count",
+    "files"
+  ],
+  "properties": {
+    "updated_at": {
+      "type": "string",
+      "description": "Timestamp ISO-8601 (GMT-04:00) da ultima atualizacao do manifesto."
+    },
+    "skills_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Quantidade total de skills protegidas no projeto."
+    },
+    "files": {
+      "type": "object",
+      "description": "Mapa de caminho relativo da skill para digest SHA-256 hexadecimal.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
+
+#### Schema `#36`: `extensions_config.schema.json` (Configuração Camada 3 (Spec 009))
+
+```json
+{
+  "description": "Contrato de extensoes e workflows customizados do projeto em .vitalia/extensions.yml — OpenAPI 3.0.3 Limpo (P11).",
+  "type": "object",
+  "required": [
+    "enabled_extensions",
+    "custom_workflows"
+  ],
+  "properties": {
+    "enabled_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de extensoes habilitadas no projeto cliente."
+    },
+    "custom_workflows": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de workflows customizados registrados no projeto."
+    }
+  }
+}
+```
+
 ---
 
-<sub>Manual normativo mestre e Oráculo de Estado-Alvo do Vitalia Kit v0.0.1 (Pós-Specs 007–010). Consolidação integral dos 16 Workflows Centrais SDD, 10 Agentes Especialistas de Domínio, 8 Extensões Complementares, 25 Guardian Profiles (`gp_*.yaml`), Modelo Determinístico de Ambiguidades, Catálogo Grounding P03 Expandido, Classificador RRF do Architect, Vitalia Runtime Sensor Suite (VRSS) e Definições Integrais dos 34 Schemas OpenAPI 3.0.3 Limpos.</sub>
+<sub>Manual normativo mestre e Oráculo de Estado-Alvo do Vitalia Kit v0.0.1 (Pós-Specs 007–010). Consolidação integral dos 16 Workflows Centrais SDD, 10 Agentes Especialistas de Domínio, 8 Extensões Complementares, 25 Guardian Profiles (`gp_*.yaml`), Modelo Determinístico de Ambiguidades, Catálogo Grounding P03 Expandido, Classificador RRF do Architect, Vitalia Runtime Sensor Suite (VRSS) e Definições Integrais dos 36 Schemas OpenAPI 3.0.3 Limpos.</sub>

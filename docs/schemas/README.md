@@ -1,10 +1,10 @@
-<!-- README.md | Vitalia Kit v0.0.1 | 26-11-2026 22:28(GMT-04:00) -->
-**README.md | Vitalia Kit v0.0.1 | 26-11-2026 22:28(GMT-04:00)**
+<!-- README.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00) -->
+**README.md | Vitalia Kit v0.0.1 | 27-11-2026 10:35(GMT-04:00)**
 
 # Catálogo de Novos Schemas Canônicos — Specs 009 e 010 (`OpenAPI 3.0.3 Limpo — P11`)
 
-> **Destino no Repositório `vitalia-kit`:** `source/src/schemas/` (`#25` a `#34`, elevando o total canônico de `24` para `34` schemas).  
-> **Oráculo Mestre Consolidado:** [CONTRATOS_WORKFLOWS_SDD.md](../CONTRATOS_WORKFLOWS_SDD.md) (Seção 11 — contém a tabela mestra e o JSON literal completo de todos os **34** schemas `#01` a `#34`).  
+> **Destino no Repositório `vitalia-kit`:** `source/src/schemas/` (`#25` a `#36`, elevando o total canônico de `24` para `36` schemas — 100% de cobertura sobre todo `.json`, `.jsonl` e `.yaml`/`.yml` do kit e da Camada 3).  
+> **Oráculo Mestre Consolidado:** [CONTRATOS_WORKFLOWS_SDD.md](../CONTRATOS_WORKFLOWS_SDD.md) (Seção 11 — contém a tabela mestra e o JSON literal completo de todos os **36** schemas `#01` a `#36`).  
 > **Documento de Origem:** [brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md](../brainstorming-auditoria-kit-ativo-spec-009-010-v0.0.1.md) (Seção 6.3).  
 > **Handoffs Associados:** [handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md](../handoff-spec-009-determinismo-schemas-camada3-v0.0.1.md) · [handoff-spec-010-contratos-toml-catalogos-v0.0.1.md](../handoff-spec-010-contratos-toml-catalogos-v0.0.1.md).
 
@@ -12,7 +12,7 @@
 
 ## 1. Regras Invioláveis de Conformidade OpenAPI 3.0.3 Limpo (`P11`)
 
-Todos os 10 arquivos `.schema.json` neste diretório obedecem estritamente às invariantes verificadas por `source/tests/test_schemas_openapi30_p11.py`:
+Todos os 12 arquivos `.schema.json` neste diretório obedecem estritamente às invariantes verificadas por `source/tests/test_schemas_openapi30_p11.py`:
 - Raiz `type: "object"` com chaves de topo restritas a `["description", "type", "required", "properties"]`.
 - **Zero** `$schema` em qualquer nível.
 - **Zero** `title` na raiz.
@@ -21,7 +21,7 @@ Todos os 10 arquivos `.schema.json` neste diretório obedecem estritamente às i
 
 ---
 
-## 2. Inventário dos 10 Novos Schemas (`#25` a `#34`)
+## 2. Inventário dos 12 Novos Schemas (`#25` a `#36`)
 
 | # | Arquivo em `docs/schemas/` | Artefato Físico Regido | Consumidor / Produtor Principal |
 | :---: | :--- | :--- | :--- |
@@ -35,6 +35,8 @@ Todos os 10 arquivos `.schema.json` neste diretório obedecem estritamente às i
 | **32** | [session_ledger.schema.json](./session_ledger.schema.json) | `.vitalia/memory/session/session_ledger.json` | Validado em `vitalia_context_engine.py --action end` e `sensor_memory_ledger.py`. |
 | **33** | [project_config.schema.json](./project_config.schema.json) | `.vitalia/config.yml` | Gerado por `install-project` e lido por `kit_env_bootstrap.py`, `vitalia_hook_runner.py` e renderizadores. |
 | **34** | [design_tokens.schema.json](./design_tokens.schema.json) | `docs/design/design-tokens.json` | Injetado via `guardian.schemas` em `figma-maestro.toml` (W3C DTCG + Tailwind CSS v4). |
+| **35** | [agent_preserver_manifest.schema.json](./agent_preserver_manifest.schema.json) | `.vitalia/agent_preserver.manifest.json` | Gerado e verificado por `install-project` / `agent_preserver.py` (integridade SHA-256 das skills). |
+| **36** | [extensions_config.schema.json](./extensions_config.schema.json) | `.vitalia/extensions.yml` | Gerado por `install-project` para registro de extensões habilitadas e workflows customizados. |
 
 ---
 
